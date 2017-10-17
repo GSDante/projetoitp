@@ -24,6 +24,9 @@ int main(int argc, char **argv) {// exemplo de entrada ​ ./catarata​ ​ -i�
 	FILE *fimagem;
 	//FAZER: Tratar argumentos de entrada
 	fimagem = fopen("img/Catarata.ppm", "r");
+	if(fimagem == NULL){
+		printf("Erro ao abrir a imagem");
+	}
 	//FAZER: Usar metodo correspondento ao tipo de imagem
 	lerImagemPPM(fimagem);
 	return 0;
@@ -35,12 +38,17 @@ void ignorarComentarios(FILE *f){
 int lerImagemPPM(FILE *file){
 		char tipo[3];
 		char *t;
+		int i;
 		fscanf(file, "%2s\n", tipo); // le o especificador de tipo da imagem (Magic Number)
 		ignorarComentarios(file); // ignora comentarios imediatamente seguintes
 		fscanf(file, "%d %d", &imagem.largura, &imagem.altura);
 		fscanf(file, "%d", &imagem.valorMaximoCor);
 		printf("formato: %s\n", tipo);
 		printf("Largura: %d, altura: %d\n", imagem.largura, imagem.altura);
+		imagem.pixel=calloc(imagem.altura*imagem.largura,sizeof(pixel));
+			for(i=0;i<=imagem.altura*imagem.largura;i++){
+				fscanf(file,"%d %d %d",imagem.pixel[i].r,imagem.pixel[i].g,imagem.pixel[i].b);
+			}
 		// FAZER: preencher imagem
 		return 0;
 }
